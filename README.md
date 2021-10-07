@@ -11,10 +11,6 @@ Make sure you have a working environment configured with access to:
 ### You can use the preconfigured docker-container (Theia-IDE + clang/LLVM) provided here 
 https://github.com/cppitems/docker
 
-> What is a 'docker-container'? 
-
-> What is the 'Theia-IDE'?
-
 ## Background
 
 In this exercise you have to implement a class which should provide a data structure of dynamically allocated, contiguous memory, usually called a **Vector**.
@@ -41,9 +37,6 @@ Now, the test "TestB" will still be compiled and run, but not "TestA".
 ### Coding Task
 
 Your task is to add the implementation of a `Vector` class for a small vector library which will store elements of type `int`. Once you are done, all available test cases should compile and pass without errors.
-
-You can find this C++ project with a CMake configuration at
-https://github.com/cppitems/cppitems/tree/master/items/002/ex0
 
 The source and header files for the vector library are initially empty and should be filled by you with the necessary C++ code.
 You should **NOT** add any additional files but only modify the existing source files located at:
