@@ -34,7 +34,7 @@ list(APPEND MY_TEST_SOURCES "TestB")
 ```
 Now, the test "TestB" will still be compiled and run, but not "TestA".
 
-### Coding Task
+## Coding Task
 
 Your task is to add the implementation of a `Vector` class for a small vector library which will store elements of type `int`. Once you are done, all available test cases should compile and pass without errors.
 
@@ -68,34 +68,48 @@ make test
 ```
 and then push your changes to your Gitea repository.
 
-### Pushing to Gitea
+## Pushing to Gitea
 
 All exercises must be handed in to your repository on our Gitea server at [https://tea.iue.tuwien.ac.at](https://tea.iue.tuwien.ac.at)
 
-#### Initial Setup (only do this once)
+### Initial Setup (only do this once)
 
 git is a software versioning tool and is commonly used in almost all areas of software development.
-In order to tell git to watch your project, navigate to your project folder and run
-```bash
-git init
-Initialised empty Git repository in /my/project/folder/.git/
-```
 
-In order to upload changes to Gitea to share it with collaborators (or your lecturers), we first have to tell git where to upload them:
+You can obtain the exercise using:
 ```bash
-git remote add origin git@tea.iue.tuwien.ac.at:e00000000/ex0.git
+git clone https://github.com/cppitems/ex0.git 
+cd ex0 # change into the folder which was created by cloning
+git status # check git status
+git remote -v # show the configuration of remotes (where you can push to)
 ```
-where `origin` is the name we want to call this remote repository, `e00000000` should be replaced with `e<yourstudentid>` and `ex0` is the name of the repository on the server.
+Next, you need to create a remote repository on tea.iue.tuwien.ac.at:
+1. navigate to tea.iue.tuwien.ac.at
+2. login with username and initial password
+3. create a new repository named 'ex0'
+
+Next, you want to connect your local repository to this new repository (to be able to push the assignments):
+```bash
+git remote add submission https://tea.iue.tuwien.ac.at/e12345678/ex0.git
+git remote -v # show all remotes
+git push -u submission master # make initial push and set new remote as default
+```
+where `submission` is the name we want to call this remote repository, `e12345678` should be replaced with `e<yourstudentid>` and `ex0` is the name of the repository on the server.
 Make sure you have created the repository before trying to upload to it.
+
+Now you can push to the submission remote in the usual way:
+```bash
+git push # now uses the default remote "submission"
+```
 
 #### Upload after working on the project
 
 *FAQ: How often should I push my changes to Gitea?*
-*Answer: **Every time you get up from your computer. Every. Single. Time.***
+*Answer: **Every time you get up from your computer. Every. Single. Time.** *
 
 After having done some exhausting coding, we want to add all file changes in the current folder (`.`) to git:
 ```bash
-git add .
+git add . 
 ```
 In order to see what files have changed, you can run
 ```bash
@@ -105,14 +119,11 @@ and you can check all changes within files with
 ```bash
 git diff HEAD
 ```
-
 Once you are happy with all changes you can `commit` them to save them locally using a meaningful message that describes what you have done
 ```bash
 git commit -m "Added flux capacitor."
 ```
-
 Once all changes are comitted, we can tell git to upload them using
-
 ```bash
 git push
 ```
