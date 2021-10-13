@@ -1,50 +1,31 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Ex0)
+# adds some custom default flags for all CXX targets
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -pedantic") 
+message(STATUS "CMAKE_CXX_FLAGS=" ${CMAKE_CXX_FLAGS})
 
-#set the required CPP standard for the project
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+project(ex0 LANGUAGES CXX)
 
-# set CXX flags for the compiler to be very strict
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -pedantic")
+# configuring address sanitizer flags (ASAN); 
+# usage: $ cmake -D CMAKE_BUILD_TYPE=ASAN ..
+set(CMAKE_CXX_FLAGS_ASAN "-fno-omit-frame-pointer -fsanitize=address -g")
+set(CMAKE_EXE_LINKER_ASAN "-fno-omit-frame-pointer -fsanitize=address")
 
-## Enable Clang sanitizer for memory warnings during Debug builds
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-  # -fsanitize=thread")
-  # -fsanitize=memory")
-  set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUGS} -fno-omit-frame-pointer -fsanitize=address")
-  # -fsanitize=memory")
-  # -fsanitize=thread")
-endif()
+# OPTION 1
+# header-only library target, i.e., vector.cpp is not relevant 
+# -> a user only needs to include the headers 
+# add_library(vector INTERFACE)
+# target_include_directories(vector INTERFACE "include") 
 
-# Define our library name
-set(MY_LIBRARY "vector")
+# OPTION 2
+# now using a "real library", i.e., interface and implementation are separated 
+# -> a user has to include the header, and link to the compiled library file
+add_library(vector SHARED lib/vector.cpp)
+target_include_directories(vector PUBLIC "include")
 
-file(GLOB MY_LIBRARY_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lib/*.cpp")
-set(MY_LIBRARY_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include")
+# enable tests with ctest (which is included in cmake)
+# usage: $ ctest --verbose
+enable_testing()
 
-# build the library
-if(MY_LIBRARY_SOURCES)
-  message(STATUS "Building shared library")
-  add_library(${MY_LIBRARY} SHARED ${MY_LIBRARY_SOURCES})
-  target_include_directories(${MY_LIBRARY} PUBLIC "${MY_LIBRARY_INCLUDE_DIRS}")
-else(MY_LIBRARY_SOURCES)
-  message(STATUS "Building header-only library")
-  add_library(${MY_LIBRARY} INTERFACE)
-  target_include_directories(${MY_LIBRARY} INTERFACE "${MY_LIBRARY_INCLUDE_DIRS}")
-endif(MY_LIBRARY_SOURCES)
-
-
-# buy default tests are built, but this can be turned off
-# command line: cmake -DBUILD_TESTS=OFF ..
-# or use ccmake (simple GUI for cmake): press 'c' to configure cmake,
-# then 'g' to generate makefile, options can be changed by highlighting them and pressing ENTER
-option(BUILD_MY_TESTS "Build unit tests." ON)
-if(BUILD_MY_TESTS)
-  # Activate CTest testing framework
-  enable_testing()
-  # Add all tests in folder "tests" to the testing
-  add_subdirectory("tests")
-endif()
+# check this folder for a CMakeLists.txt to process
+add_subdirectory("tests")

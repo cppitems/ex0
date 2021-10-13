@@ -1,5 +1,5 @@
-#include "vector.hpp"
-#include <testasserts.hpp>
+#include "include/testasserts.hpp"
+#include <vector.hpp> // lookup configured by CMake for us
 
 /*
   This test checks, whether a constructor of the form Vector(size, value)
@@ -9,7 +9,7 @@
 
 int main() {
   // ctor: length '1000', init with '10'
-  auto vec = Vector(1000, 10);
+  [[maybe_unused]] auto vec = Vector(1000, 10);
 
   // check if the type of all elements is really int
   static_assert(std::is_same<Vector::value_type, int>::value,
