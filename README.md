@@ -72,6 +72,13 @@ and then push your changes to your Gitea repository.
 
 All exercises must be handed in to your repository on our Gitea server at [https://tea.iue.tuwien.ac.at](https://tea.iue.tuwien.ac.at)
 
+If you have problems submitting to Gitea via https, try updating your machine:
+```bash
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates
+sudo update-ca-certificates
+```
+
 ### Initial Setup (only do this once)
 
 git is a software versioning tool and is commonly used in almost all areas of software development.

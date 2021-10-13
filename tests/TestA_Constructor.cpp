@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include <vector.hpp>
 #include <testasserts.hpp>
 
 /*
@@ -9,7 +9,7 @@
 
 int main() {
   // ctor: length '1000', init with '10'
-  auto vec = Vector(1000, 10);
+  Vector(1000, 10);
 
   // check if the type of all elements is really int
   static_assert(std::is_same<Vector::value_type, int>::value,
