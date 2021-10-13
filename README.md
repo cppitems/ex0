@@ -1,4 +1,4 @@
-# Exercise EX0 (support session setup)
+# Exercise EX0 (support session setup) 
 
 ## Prerequisits
 
