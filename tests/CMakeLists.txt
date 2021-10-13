@@ -1,26 +1,14 @@
 cmake_minimum_required(VERSION 3.0)
 
-# set up the project for building all tests
+# variables from parent scope like "CMAKE_CXX_FLAGS" are valid here, too
+
 project(Tests LANGUAGES CXX)
 
-# make a custom target for usage with make
-# all tests can be built using `make myTests`
-add_custom_target(myTests)
+# add "regular" executable
+add_executable(TestA_Constructor TestA_Constructor.cpp)
+# link to our vector library "privately" (which might be header-only or a "regular library")
+target_link_libraries(TestA_Constructor PRIVATE vector)
+# mark the executable target as a test and specify the command to call it
+add_test(NAME TestA_Constructor COMMAND TestA_Constructor)
 
-set(MY_TEST_SOURCES "")
-list(APPEND MY_TEST_SOURCES "TestA_Constructor")
-list(APPEND MY_TEST_SOURCES "TestB_Size")
-list(APPEND MY_TEST_SOURCES "TestC_Data")
-list(APPEND MY_TEST_SOURCES "TestD_At")
-list(APPEND MY_TEST_SOURCES "TestE_Sum")
-list(APPEND MY_TEST_SOURCES "TestF_Copy")
-
-foreach(MY_TEST_SOURCE ${MY_TEST_SOURCES})
-  add_executable(${MY_TEST_SOURCE} ${MY_TEST_SOURCE}.cpp)
-  target_include_directories(${MY_TEST_SOURCE} PUBLIC "${MY_LIBRARY_INCLUDE_DIRS}")
-  target_link_libraries(${MY_TEST_SOURCE} PRIVATE ${MY_LIBRARY})
-
-  # Add to test framework, so test can be built with `make buildTests`
-  add_dependencies(myTests ${MY_TEST_SOURCE})
-  add_test(NAME ${MY_TEST_SOURCE} COMMAND ${MY_TEST_SOURCE})
-endforeach(MY_TEST_SOURCE ${MY_TEST_SOURCES})
+## TODO: add other tests 

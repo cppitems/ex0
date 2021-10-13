@@ -1,5 +1,5 @@
-#include "vector.hpp"
-#include <testasserts.hpp>
+#include "include/testasserts.hpp"
+#include <vector.hpp> // lookup configured by CMake for us
 
 /*
   This test checks, whether the member function sum() is defined
